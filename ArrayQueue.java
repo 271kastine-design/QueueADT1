@@ -38,6 +38,14 @@ public class ArrayQueue<T> implements QueueInterface<T>{
         if(empty()){
             throw new QueueUnderflowException("Queue is empty!");
         }
+        if((size()-1) == array.length/4){
+            T[] temp = (T[]) new Object[array.length/2];
+            for(int i = 0; i < size; i++){
+                temp[i] = array[front];
+                front = (front + size) % array.length;
+            }
+        }
+        front = 0;
         T temp = array[front];
         array[front] = null;
         front = (front + 1) % array.length; 
