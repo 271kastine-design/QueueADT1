@@ -95,7 +95,7 @@ public class QueueTest<T>
         try 
         {
             if(type.equals("ArrayQueue"))
-                queue = new ArrayQueue<Integer>();
+                queue = new queue<Integer>();
             else
                 queue = new LinkedQueue<Integer>();
             c = Class.forName(type);

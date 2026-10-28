@@ -1,8 +1,8 @@
-public class ArrayQueue<T> implements QueueInterface<T>{
+public class queue<T> implements QueueInterface<T>{
     private T[] array;
     private int size;
     private int front;
-    public ArrayQueue(){
+    public queue(){
         array = (T[]) new Object[4];
         size = 0;
         front = 0;

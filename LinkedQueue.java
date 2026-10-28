@@ -7,6 +7,9 @@ public class LinkedQueue<T> implements QueueInterface<T>{
         node = new LLNode(null);
         size = 0;
     }
+    public int size(){
+        return size;
+    }
     public boolean empty(){
         if(size == 0){
             return true;
@@ -16,9 +19,31 @@ public class LinkedQueue<T> implements QueueInterface<T>{
     public void clear(){
         node.setLink(null);
     }
-    public T add(T item){
+    public T peek(){
         while(node.getLink() != null){
-            
+            node = node.getLink();
         }
+        return node.getInfo();
+    }
+    public T remove() throws QueueUnderflowException{
+    
+        if(empty()){
+            throw new QueueUnderflowException("Linked queue is empty!");
+        }
+        while(node.getLink()!= null){
+            node = node.getLink();
+        }
+        node.setLink(null);
+        size--;
+        return node.getInfo();
+    }
+    public T add(T item){
+        LLNode<T> newNode = new LLNode(item);
+        while(node.getLink() != null){
+            node = node.getLink();
+        }
+        node.setLink(newNode);
+        size++;
+        return item;
     }
 }
