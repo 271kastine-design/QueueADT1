@@ -1,10 +1,10 @@
 public class LinkedQueue<T> implements QueueInterface<T>{
-    private int front;
-    private LLNode<T> node;
+    private LLNode<T> front;
+    private LLNode<T> rear;
     private int size;
     public LinkedQueue(){
-        front = 0;
-        node = new LLNode(null);
+        front = null;
+        rear = null;
         size = 0;
     }
     public int size(){
@@ -17,32 +17,36 @@ public class LinkedQueue<T> implements QueueInterface<T>{
         return false;
     }
     public void clear(){
-        node.setLink(null);
+        front = null;
+        rear = null;
+        size = 0;
     }
-    public T peek(){
-        while(node.getLink() != null){
-            node = node.getLink();
-        }
-        return node.getInfo();
-    }
-    public T remove() throws QueueUnderflowException{
-    
+    public T peek() throws QueueUnderflowException{
         if(empty()){
             throw new QueueUnderflowException("Linked queue is empty!");
         }
-        while(node.getLink()!= null){
-            node = node.getLink();
+        return front.getInfo();
+    }
+    public T remove() throws QueueUnderflowException{
+        if(empty()){
+            throw new QueueUnderflowException("Linked queue is empty!");
         }
-        node.setLink(null);
+        T item = front.getInfo();
+        front = front.getLink();
         size--;
-        return node.getInfo();
+        if(front == null){
+            rear = null;
+        }
+        return item;
     }
     public T add(T item){
-        LLNode<T> newNode = new LLNode(item);
-        while(node.getLink() != null){
-            node = node.getLink();
+        LLNode<T> newNode = new LLNode<T>(item);
+        if(rear == null){
+            front = newNode;
+        }else{
+            rear.setLink(newNode);
         }
-        node.setLink(newNode);
+        rear = newNode;
         size++;
         return item;
     }

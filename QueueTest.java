@@ -157,12 +157,20 @@ public class QueueTest<T>
         }
             
         // test peek method
-        if(queue.peek().intValue() != 1)
-            failure("peek method is not correct");
-        
-        // test remove method
-        if(queue.remove().intValue() != 1)
-            failure("remove method is not correct");
+        try
+        {
+            if(queue.peek().intValue() != 1)
+                failure("peek method is not correct");
+            
+            // test remove method
+            if(queue.remove().intValue() != 1)
+                failure("remove method is not correct");
+        }
+        catch (QueueUnderflowException e)
+        {
+            failure("peek or remove unexpectedly threw QueueUnderflowException");
+            return;
+        }
             
         // validate size method
         if (queue.size() != 0)
@@ -235,17 +243,33 @@ public class QueueTest<T>
             return;
         }
         
-        int x = queue.peek().intValue();
-        if(x != 10)
-            failure("add and/or peek methods are incorrect");
-        
-        while(x < 1000)
+        try
         {
-            if(x != queue.remove().intValue())
-                failure("add and/or remove methods are incorrect");
-            x += 10;
-            if(x != queue.peek().intValue())
+            int x = queue.peek().intValue();
+            if(x != 10)
                 failure("add and/or peek methods are incorrect");
+            
+            while(x < 1000)
+            {
+                if(x != queue.remove().intValue())
+                    failure("add and/or remove methods are incorrect");
+                x += 10;
+                if(x != queue.peek().intValue())
+                    failure("add and/or peek methods are incorrect");
+            }
+
+            // test peek method
+            if(queue.peek().intValue() != 1000)
+                failure("peek method is not correct");
+            
+            // test remove method
+            if(queue.remove().intValue() != 1000)
+                failure("remove method is not correct");
+        }
+        catch (QueueUnderflowException e)
+        {
+            failure("peek or remove unexpectedly threw QueueUnderflowException");
+            return;
         }
 
         // validate size method
@@ -262,14 +286,6 @@ public class QueueTest<T>
             return;
         }
         
-        // test peek method
-        if(queue.peek().intValue() != 1000)
-            failure("peek method is not correct");
-        
-        // test remove method
-        if(queue.remove().intValue() != 1000)
-            failure("remove method is not correct");
-            
         // validate size method
         if (queue.size() != 0)
         {
