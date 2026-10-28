@@ -95,7 +95,7 @@ public class QueueTest<T>
         try 
         {
             if(type.equals("ArrayQueue"))
-                queue = new queue<Integer>();
+                queue = new ArrayQueue<Integer>();
             else
                 queue = new LinkedQueue<Integer>();
             c = Class.forName(type);
@@ -272,20 +272,6 @@ public class QueueTest<T>
             return;
         }
 
-        // validate size method
-        if (queue.size() != 1)
-        {
-            failure("Failed: incorrect size value");
-            return;
-        }
-
-        //validate empty method
-        if (queue.empty())
-        {
-            failure("Failed: incorrect empty method");
-            return;
-        }
-        
         // validate size method
         if (queue.size() != 0)
         {

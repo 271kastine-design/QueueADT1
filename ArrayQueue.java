@@ -1,8 +1,8 @@
-public class queue<T> implements QueueInterface<T>{
+public class ArrayQueue<T> implements QueueInterface<T>{
     private T[] array;
     private int size;
     private int front;
-    public queue(){
+    public ArrayQueue(){
         array = (T[]) new Object[4];
         size = 0;
         front = 0;
@@ -19,6 +19,7 @@ public class queue<T> implements QueueInterface<T>{
     public void clear(){
         array = (T[]) new Object[4];
         size = 0;
+        front = 0;
     }
     public T add(T item){
         if(size == array.length){
@@ -38,19 +39,20 @@ public class queue<T> implements QueueInterface<T>{
         if(empty()){
             throw new QueueUnderflowException("Queue is empty!");
         }
-        if((size()-1) == array.length/4){
-            T[] temp = (T[]) new Object[array.length/2];
-            for(int i = 0; i < size; i++){
-                temp[i] = array[front];
-                front = (front + size) % array.length;
-            }
-        }
-        front = 0;
-        T temp = array[front];
+        T item = array[front];
         array[front] = null;
-        front = (front + 1) % array.length; 
+        front = (front + 1) % array.length;
         size--;
-        return temp;
+
+        if(array.length > 4 && size <= array.length / 4){
+            T[] temp = (T[]) new Object[array.length / 2];
+            for(int i = 0; i < size; i++){
+                temp[i] = array[(front + i) % array.length];
+            }
+            array = temp;
+            front = 0;
+        }
+        return item;
     }
     public T peek() throws QueueUnderflowException{
         if(empty()){
